@@ -1,7 +1,15 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import dotenv from 'dotenv';
+const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require("cors");
+const multer = require('multer');
+const path = require('path');
+
+const reservationRoutes = require("./routes/reservationRoutes");
+const serviceRoutes = require("./routes/serviceRoutes");
+const clientRoutes = require("./routes/clientRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+
 
 dotenv.config();
 
@@ -18,6 +26,11 @@ mongoose.connect(process.env.MONGO_URI)
 app.get('/', (req, res) => {
   res.send('Backend is working ✅');
 });
+
+app.use("/api/reservations", reservationRoutes);
+app.use("/api/services", serviceRoutes);
+app.use("/api/clients", clientRoutes);
+app.use("/api/admin", adminRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
